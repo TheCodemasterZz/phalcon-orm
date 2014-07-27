@@ -1,0 +1,19 @@
+{
+    "name": "lukezbihlyj/phalcon-orm",
+    "type": "library",
+    "description": "Extends Phalcon's ORM to support the use of extended annotations.",
+    "homepage": "http://github.com/lukezbihlyj/phalcon-orm",
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "LukeZbihlyj\\PhalconOrm\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
