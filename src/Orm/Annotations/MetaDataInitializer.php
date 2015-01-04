@@ -1,6 +1,6 @@
 <?php
 
-namespace LukeZbihlyj\PhalconOrm\Annotations;
+namespace LukeZbihlyj\PhalconOrm\Orm\Annotations;
 
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\DiInterface;
@@ -8,10 +8,10 @@ use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Db\Column;
 
 /**
- * @package LukeZbihlyj\PhalconOrm\Annotations\MetaDataInitializer
+ * @package LukeZbihlyj\PhalconOrm\Orm\Annotations\MetaDataInitializer
  */
-
-class MetaDataInitializer {
+class MetaDataInitializer
+{
     /**
      * Initializes the model's meta-data.
      *
@@ -19,13 +19,13 @@ class MetaDataInitializer {
      * @param Phalcon\DiInterface $di
      * @return array
      */
-
-    public function getMetaData(ModelInterface $model, DiInterface $di) {
-        $reflection = $di->get("annotations")->get($model);
+    public function getMetaData(ModelInterface $model, DiInterface $di)
+    {
+        $reflection = $di->get('annotations')->get($model);
         $properties = $reflection->getPropertiesAnnotations();
 
-        if(!$properties) {
-            throw new Exception("There are no properties defined on the model.");
+        if (!$properties) {
+            throw new Exception('There are no properties defined on the model.');
         }
 
         $attributes = [];
@@ -37,25 +37,25 @@ class MetaDataInitializer {
         $nonPrimaryKeys = [];
         $identity = false;
 
-        foreach($properties as $name => $collection) {
-            if($collection->has('ORM\Column')) {
+        foreach ($properties as $name => $collection) {
+            if ($collection->has('ORM\Column')) {
                 $arguments = $collection->get('ORM\Column')->getArguments();
 
-                if(isset($arguments['name'])) {
+                if (isset($arguments['name'])) {
                     $columnName = $arguments['name'];
                 } else {
                     $columnName = $name;
                 }
 
-                if(isset($arguments['type'])) {
-                    switch($arguments['type']) {
-                        case "integer":
+                if (isset($arguments['type'])) {
+                    switch ($arguments['type']) {
+                        case 'integer':
                             $dataTypes[$columnName] = Column::TYPE_INTEGER;
                             $dataTypesBind[$columnName] = Column::BIND_PARAM_INT;
                             $numericTypes[$columnName] = true;
                             break;
 
-                        case "string":
+                        case 'string':
                             $dataTypes[$columnName] = Column::TYPE_VARCHAR;
                             $dataTypesBind[$columnName] = Column::BIND_PARAM_STR;
                             break;
@@ -65,9 +65,9 @@ class MetaDataInitializer {
                     $dataTypesBind[$columnName] = Column::BIND_PARAM_STR;
                 }
 
-                if(!$collection->has('ORM\Identity')) {
-                    if(isset($arguments['nullable'])) {
-                        if(!$arguments['nullable']) {
+                if (!$collection->has('ORM\Identity')) {
+                    if (isset($arguments['nullable'])) {
+                        if (!$arguments['nullable']) {
                             $notNull[] = $columnName;
                         }
                     }
@@ -75,13 +75,13 @@ class MetaDataInitializer {
 
                 $attributes[] = $columnName;
 
-                if($collection->has('ORM\Primary')) {
+                if ($collection->has('ORM\Primary')) {
                     $primaryKeys[] = $columnName;
                 } else {
                     $nonPrimaryKeys[] = $columnName;
                 }
 
-                if($collection->has('ORM\Identity')) {
+                if ($collection->has('ORM\Identity')) {
                     $identity = $columnName;
                 }
             }
@@ -106,21 +106,21 @@ class MetaDataInitializer {
      *
      * @param Phalcon\Mvc\ModelInterface $model
      * @param Phalcon\DiInterface $di
-     * @return array
+     * @return array|null
      */
-
-    public function getColumnMaps(ModelInterface $model, DiInterface $di) {
-        $reflection = $di['annotations']->get($model);
+    public function getColumnMaps(ModelInterface $model, DiInterface $di)
+    {
+        $reflection = $di->get('annotations')->get($model);
 
         $columnMap = [];
         $reverseColumnMap = [];
         $renamed = false;
 
-        foreach($reflection->getPropertiesAnnotations() as $name => $collection) {
-            if($collection->has('ORM\Column')) {
+        foreach ($reflection->getPropertiesAnnotations() as $name => $collection) {
+            if ($collection->has('ORM\Column')) {
                 $arguments = $collection->get('ORM\Column')->getArguments();
 
-                if(isset($arguments['name'])) {
+                if (isset($arguments['name'])) {
                     $columnName = $arguments['name'];
                 } else {
                     $columnName = $name;
@@ -129,15 +129,15 @@ class MetaDataInitializer {
                 $columnMap[$columnName] = $name;
                 $reverseColumnMap[$name] = $columnName;
 
-                if(!$renamed) {
-                    if($columnName != $name) {
+                if (!$renamed) {
+                    if ($columnName != $name) {
                         $renamed = true;
                     }
                 }
             }
         }
 
-        if($renamed) {
+        if ($renamed) {
             return [
                 MetaData::MODELS_COLUMN_MAP => $columnMap,
                 MetaData::MODELS_REVERSE_COLUMN_MAP => $reverseColumnMap
