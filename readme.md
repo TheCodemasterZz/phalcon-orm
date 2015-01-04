@@ -28,7 +28,20 @@ If you're using [Phalcon+](https://github.com/lukezbihlyj/phalcon-plus) for your
 ],
 ```
 
-Et voila! You're done.
+With this system you'll want to specify your connection information somewhere in your application's configuration (although we suggest `autoload/local.php` for security reasons). This should look as follows:
+
+```php
+'phalcon-orm' => [
+    'connection' => [
+        'driver' => 'mysql',
+        'host' => '127.0.0.1',
+        'port' => 3306,
+        'user' => 'phalcon',
+        'password' => 'phalcon',
+        'database' => 'phalcon',
+    ],
+],
+```
 
 ### 2. Standalone
 
