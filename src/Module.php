@@ -59,43 +59,4 @@ class Module extends Injectable implements InjectionAwareInterface
 
         return $this;
     }
-
-    /**
-     * @param Phalcon\Config $config
-     * @return Phalcon\Mvc\Model\MetaData
-     */
-    private function getMetadataAdapter(Config $config)
-    {
-        $metadata = $config->get('phalcon-orm')->get('metadata');
-
-        if (!$metadata) {
-            return new MetaDataAdapter\Memory;
-        }
-
-        switch ($metadata->get('driver')) {
-            case 'apc':
-                $metadataAdapter = new MetaDataAdapter\Apc([
-                    'prefix' => $metadata->get('prefix')
-                ]);
-                break;
-
-            case 'files':
-                $metadataAdapter = new MetaDataAdapter\Files([
-                    'metaDataDir' => $metadata->get('path')
-                ]);
-                break;
-
-            case 'xcache':
-                $metadataAdapter = new MetaDataAdapter\Xcache([
-                    'prefix' => $metadata->get('prefix')
-                ]);
-                break;
-
-            default:
-                $metadataAdapter = new MetaDataAdapter\Memory;
-                break;
-        }
-
-        return $metadataAdapter;
-    }
 }
