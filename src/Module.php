@@ -32,15 +32,11 @@ class Module extends Injectable implements InjectionAwareInterface
         $di = $this->getDI();
 
         /** @var Phalcon\Config $config */
-        $config = $di->get('config')->get('phalcon-orm');
+        $config = $this->getLocalConfig();
 
-        $di->set('db', function() {
-            $databaseAdapter = (new Orm\Database\Adapter($di))->resolve();
+        $di->setShared('db', (new Orm\Database\Adapter($di))->resolve());
 
-            return $databaseAdapter;
-        });
-
-        $di->set('modelsManager', function() use ($di) {
+        $di->setShared('modelsManager', function() use ($di) {
             $eventsManager = $di->get('eventsManager') ?: new EventsManager;
             $modelsManager = new ModelsManager;
 
@@ -50,7 +46,7 @@ class Module extends Injectable implements InjectionAwareInterface
             return $modelsManager;
         });
 
-        $di->set('modelsMetadata', function() {
+        $di->setShared('modelsMetadata', function() use ($di) {
             $metadataAdapter = (new Orm\Metadata\Adapter($di))->resolve();
             $metadataAdapter->setStrategy(new Orm\Annotations\MetaDataInitializer);
 
@@ -58,5 +54,13 @@ class Module extends Injectable implements InjectionAwareInterface
         });
 
         return $this;
+    }
+
+    /**
+     * @return Phalcon\Config
+     */
+    public function getLocalConfig()
+    {
+        return $this->getDI()->get('config')->get('phalcon-orm', new Config);
     }
 }
