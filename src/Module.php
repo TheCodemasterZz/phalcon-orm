@@ -41,14 +41,14 @@ class Module extends Injectable implements InjectionAwareInterface
             $modelsManager = new ModelsManager;
 
             $modelsManager->setEventsManager($eventsManager);
-            $eventsManager->attach('modelsManager', new Orm\Annotations\Initializer);
+            $eventsManager->attach('modelsManager', new Orm\Annotation\Initializer);
 
             return $modelsManager;
         });
 
         $di->setShared('modelsMetadata', function() use ($di) {
             $metadataAdapter = (new Orm\Metadata\Adapter($di))->resolve();
-            $metadataAdapter->setStrategy(new Orm\Annotations\MetaDataInitializer);
+            $metadataAdapter->setStrategy(new Orm\Annotation\MetaDataInitializer);
 
             return $metadataAdapter;
         });

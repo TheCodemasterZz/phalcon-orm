@@ -1,13 +1,13 @@
 <?php
 
-namespace LukeZbihlyj\PhalconOrm\Orm\Annotations;
+namespace LukeZbihlyj\PhalconOrm\Orm\Annotation;
 
 use Phalcon\Events\Event;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Mvc\User\Plugin;
 
 /**
- * @package LukeZbihlyj\PhalconOrm\Orm\Annotations\Initializer
+ * @package LukeZbihlyj\PhalconOrm\Orm\Annotation\Initializer
  */
 class Initializer extends Plugin
 {

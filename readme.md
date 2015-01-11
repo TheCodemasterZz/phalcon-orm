@@ -52,8 +52,8 @@ use Phalcon\DI\FactoryDefault as DependencyInjector,
     Phalcon\Events\Manager as EventsManager,
     Phalcon\Mvc\Model\Manager as ModelsManager,
     Phalcon\Mvc\Model\MetaData\Memory as MetaDataAdapter,
-    LukeZbihlyj\PhalconOrm\Orm\Annotations\Initializer as OrmInitializer,
-    LukeZbihlyj\PhalconOrm\Orm\Annotations\MetaDataInitializer as OrmMetaDataInitializer;
+    LukeZbihlyj\PhalconOrm\Orm\Annotation\Initializer as OrmInitializer,
+    LukeZbihlyj\PhalconOrm\Orm\Annotation\MetaDataInitializer as OrmMetaDataInitializer;
 
 $di = new DependencyInjector;
 
@@ -73,6 +73,8 @@ $di->set('modelsMetadata', function() {
 
     return $metaData;
 });
+
+$di->set('db', ...);
 ```
 
 ## Usage

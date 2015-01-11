@@ -1,6 +1,6 @@
 <?php
 
-namespace LukeZbihlyj\PhalconOrm\Orm\Annotations;
+namespace LukeZbihlyj\PhalconOrm\Orm\Annotation;
 
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\DiInterface;
@@ -8,7 +8,7 @@ use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Db\Column;
 
 /**
- * @package LukeZbihlyj\PhalconOrm\Orm\Annotations\MetaDataInitializer
+ * @package LukeZbihlyj\PhalconOrm\Orm\Annotation\MetaDataInitializer
  */
 class MetaDataInitializer
 {
