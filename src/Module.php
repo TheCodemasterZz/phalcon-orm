@@ -2,17 +2,15 @@
 
 namespace LukeZbihlyj\PhalconOrm;
 
-use Phalcon\Config;
-use Phalcon\DI\Injectable;
-use Phalcon\DI\InjectionAwareInterface;
 use Phalcon\Exception;
 use Phalcon\Mvc\Model\Manager as ModelsManager;
 use Phalcon\Events\Manager as EventsManager;
+use LukeZbihlyj\PhalconPlus\AbstractModule;
 
 /**
  * @package LukeZbihlyj\PhalconOrm\Module
  */
-class Module extends Injectable implements InjectionAwareInterface
+class Module extends AbstractModule
 {
     /**
      * @return array
@@ -32,16 +30,16 @@ class Module extends Injectable implements InjectionAwareInterface
         $di = $this->getDI();
 
         /** @var Phalcon\Config $config */
-        $config = $this->getLocalConfig();
+        $config = $this->getLocalConfig('phalcon-orm');
 
         $di->setShared('db', (new Orm\Database\Adapter($di))->resolve());
 
         $di->setShared('modelsManager', function() use ($di) {
-            $eventsManager = $di->get('eventsManager') ?: new EventsManager;
+            $eventManager = $di->get('eventsManager');
             $modelsManager = new ModelsManager;
 
-            $modelsManager->setEventsManager($eventsManager);
-            $eventsManager->attach('modelsManager', new Orm\Annotation\Initializer);
+            $modelsManager->setEventsManager($eventManager);
+            $eventManager->attach('modelsManager', new Orm\Annotation\Initializer);
 
             return $modelsManager;
         });
@@ -54,13 +52,5 @@ class Module extends Injectable implements InjectionAwareInterface
         });
 
         return $this;
-    }
-
-    /**
-     * @return Phalcon\Config
-     */
-    public function getLocalConfig()
-    {
-        return $this->getDI()->get('config')->get('phalcon-orm', new Config);
     }
 }
