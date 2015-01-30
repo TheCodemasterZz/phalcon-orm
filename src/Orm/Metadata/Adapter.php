@@ -28,7 +28,7 @@ class Adapter extends Injectable implements InjectionAwareInterface
         switch ($driver) {
             case 'files':
                 return new MetadataAdapter\Files([
-                    'metaDataDir' => $config->get('metadata')->get('directory')
+                    'metaDataDir' => $config->get('metadata')->get('path')
                 ]);
                 break;
 
