@@ -57,8 +57,8 @@ use Phalcon\DI\FactoryDefault as DependencyInjector,
 
 $di = new DependencyInjector;
 
-$di->set('modelsManager', function() {
-    $eventsManager = new EventsManager;
+$di->setShared('modelsManager', function() use ($di) {
+    $eventsManager = $di->get('eventsManager') ?: new EventsManager;
     $modelsManager = new ModelsManager;
 
     $modelsManager->setEventsManager($eventsManager);
@@ -67,14 +67,14 @@ $di->set('modelsManager', function() {
     return $modelsManager;
 });
 
-$di->set('modelsMetadata', function() {
+$di->setShared('modelsMetadata', function() {
     $metaData = new MetaDataAdapter;
     $metaData->setStrategy(new OrmMetaDataInitializer);
 
     return $metaData;
 });
 
-$di->set('db', ...);
+$di->setShared('db', ...);
 ```
 
 ## Usage
