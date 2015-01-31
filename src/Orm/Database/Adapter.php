@@ -20,21 +20,19 @@ class Adapter extends Injectable implements InjectionAwareInterface
         $di = $this->getDI();
 
         /** @var Phalcon\Config $config */
-        $config = $di->get('config')->get('phalcon-orm');
+        $config = $di->get('config');
 
         /** @var string|null $driver */
-        $driver = $config->get('connection')->get('driver');
+        $driver = $config->get('phalcon-orm/connection/driver');
 
         switch ($driver) {
             case 'mysql':
-                $connection = $config->get('connection');
-
                 return new DatabaseAdapter\Mysql([
-                    'host' => $connection->get('host'),
-                    'port' => $connection->get('port'),
-                    'username' => $connection->get('user'),
-                    'password' => $connection->get('password'),
-                    'dbname' => $connection->get('database')
+                    'host' => $config->get('phalcon-orm/connection/host'),
+                    'port' => $config->get('phalcon-orm/connection/port'),
+                    'username' => $config->get('phalcon-orm/connection/user'),
+                    'password' => $config->get('phalcon-orm/connection/password'),
+                    'dbname' => $config->get('phalcon-orm/connection/database')
                 ]);
                 break;
 

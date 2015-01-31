@@ -29,9 +29,6 @@ class Module extends AbstractModule
         /** @var Phalcon\DI $di */
         $di = $this->getDI();
 
-        /** @var Phalcon\Config $config */
-        $config = $this->getLocalConfig('phalcon-orm');
-
         $di->setShared('db', (new Orm\Database\Adapter($di))->resolve());
 
         $di->setShared('modelsManager', function() use ($di) {

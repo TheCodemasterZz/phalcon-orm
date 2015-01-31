@@ -20,27 +20,27 @@ class Adapter extends Injectable implements InjectionAwareInterface
         $di = $this->getDI();
 
         /** @var Phalcon\Config $config */
-        $config = $di->get('config')->get('phalcon-orm');
+        $config = $di->get('config');
 
         /** @var string|null $driver */
-        $driver = $config->get('metadata')->get('driver');
+        $driver = $config->get('phalcon-orm/metadata/driver');
 
         switch ($driver) {
             case 'files':
                 return new MetadataAdapter\Files([
-                    'metaDataDir' => $config->get('metadata')->get('path')
+                    'metaDataDir' => $config->get('phalcon-orm/metadata/path')
                 ]);
                 break;
 
             case 'apc':
                 return new MetadataAdapter\Apc([
-                    'prefix' => $config->get('metadata')->get('prefix')
+                    'prefix' => $config->get('phalcon-orm/metadata/prefix')
                 ]);
                 break;
 
             case 'xcache':
                 return new MetadataAdapter\Xcache([
-                    'prefix' => $config->get('metadata')->get('prefix')
+                    'prefix' => $config->get('phalcon-orm/metadata/prefix')
                 ]);
                 break;
 
