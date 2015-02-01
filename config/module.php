@@ -6,5 +6,20 @@
  */
 
 return [
-    'phalcon-orm' => [],
+    'phalcon-orm' => [
+        'connection' => [
+            'driver' => 'mysql',
+        ],
+        'metadata' => [
+            'driver' => 'memory',
+        ],
+    ],
+    'phalcon-cli' => [
+        'tasks' => [
+            'orm:generate' => [
+                'class' => 'LukeZbihlyj\PhalconOrm\Cli\CliController',
+                'description' => 'Generate the schema for the active database.',
+            ],
+        ],
+    ],
 ];
